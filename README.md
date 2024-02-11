@@ -59,6 +59,11 @@ Este projeto é licenciado sob a [MIT]. Veja o arquivo `LICENSE.md` para mais de
 
 
 
+https://github.com/E-RAPHA/encurtador/assets/83914531/95623aba-79b8-4bc8-99b6-2eba5245bdc6
+
+
+
+https://github.com/E-RAPHA/encurtador/assets/83914531/60f8e13e-fa63-461f-bf77-bca25a8895cd
 
 
 
@@ -66,5 +71,8 @@ Este projeto é licenciado sob a [MIT]. Veja o arquivo `LICENSE.md` para mais de
 
 
 
-https://github.com/E-RAPHA/encurtador/assets/83914531/ffad4a3d-24f3-412e-8d50-29fc2337acd5
+
+
+
+
 
