@@ -35,7 +35,7 @@ Um encurtador de URL eficiente que utiliza MongoDB, Redis e implementa padrões 
 
 - **Write Behind:** Foi optada a abordagem de Write Behind para a gravação assíncrona de dados. Quando uma URL é encurtada, os dados são inicialmente gravados no Redis, proporcionando uma resposta rapida ao cliente. Em segundo plano, um processo assincrono grava os dados para o MongoDB para garantir persistencia dos dados.
 
-# mapa do padrao
+# mapa do padrão
 ![mapa da applicaçao](https://i.imgur.com/jNvwwxI.png)
 
 (Você pode olhar o cache do Redis em localhost:8001)
@@ -55,4 +55,16 @@ Este projeto é licenciado sob a [MIT]. Veja o arquivo `LICENSE.md` para mais de
 ##
 
 - Caso você tenha gostado coloque uma ⭐  no projeto!
+
+
+
+
+
+
+
+
+
+
+
+https://github.com/E-RAPHA/encurtador/assets/83914531/ffad4a3d-24f3-412e-8d50-29fc2337acd5
 
