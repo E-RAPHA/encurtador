@@ -45,7 +45,7 @@ Um encurtador de URL eficiente que utiliza MongoDB, Redis e implementa padrões 
 - Fique à vontade para contribuir! entre em contato pra me falar sua ideia!👀
 
 ## Licença
-Este projeto é licenciado sob a [Sua Licença Escolhida]. Veja o arquivo `LICENSE.md` para mais detalhes.
+Este projeto é licenciado sob a [MIT]. Veja o arquivo `LICENSE.md` para mais detalhes.
 
 ## Contato
 
