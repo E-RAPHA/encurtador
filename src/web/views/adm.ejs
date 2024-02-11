@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <link rel="shortcut icon" href="./imgs/url.png" type="image/x-icon">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0,shrink-to-fit=no">
+    <title>infos do link</title>
+    <style>
+        :root {
+            font-size: 125%;
+        }
+
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            user-select: none;
+            background-color: rgb(36, 40, 57);
+            margin: 0;
+            padding: 10px;
+            font-family: Arial, Helvetica, sans-serif;
+
+        }
+
+        main {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            row-gap: 5vh;
+        }
+
+        h1 {
+            letter-spacing: 1.25px;
+            color: #8e29ed;
+        }
+
+        #link {
+            color: #FC68C0;
+        }
+
+        table {
+            color: white;
+            background-color: rgb(41, 47, 75);
+            width: 31.5vw;
+            height: 40vh;
+            border-collapse: separate;
+            border-spacing: 0;
+        }
+
+        td {
+            width: 50%;
+            border: solid 3px #FC68C0;
+            border-style: none solid solid none;
+            padding: 10px;
+        }
+
+        tr:nth-child(odd) {
+            background-color: rgb(52, 58, 86);
+            ;
+        }
+
+        tr:first-child td:first-child {
+            border-top-left-radius: 10px;
+        }
+
+        tr:first-child td:last-child {
+            border-top-right-radius: 10px;
+        }
+
+        tr:last-child td:first-child {
+            border-bottom-left-radius: 10px;
+        }
+
+        tr:last-child td:last-child {
+            border-bottom-right-radius: 10px;
+        }
+
+        tr:first-child td {
+            border-top-style: solid;
+        }
+
+        tr td:first-child {
+            border-left-style: solid;
+        }
+
+        .resposta {
+            user-select: all;
+            cursor: pointer;
+            text-align: center;
+        }
+
+        button {
+            padding: 10px 15px;
+            border: none;
+            border-radius: 7px;
+            margin-top: 10vh;
+            background-color: #8e29ed;
+            color: black;
+            font-size: 1.2rem;
+            cursor: pointer;
+        }
+
+        @media screen and (max-width: 500px) {
+            body {
+                display: block;
+                padding: 10px !important;
+                height: 100vh;
+            }
+
+            h1 {
+                text-align: center;
+            }
+
+            main {
+                align-items: center;
+                width: auto;
+                height: 100vh;
+                justify-content: flex-start;
+                row-gap: 5%;
+            }
+
+            table {
+                font-size: 0.8rem;
+                width: 100%;
+            }
+
+            td {
+                /* Adicione a propriedade para quebrar o texto longo */
+                overflow-wrap: break-word;
+            }
+
+            button {
+                margin-top: 0;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <main>
+
+        <img href="./url.png">
+
+        <h1>Informações sobre o <span id="link">LINK</span></h1>
+
+        <img href="./url.png">
+
+        <table>
+            <tr>
+                <td>Link ADM</td>
+                <td class="resposta" id="linkADM">x</td>
+            </tr>
+            <tr>
+                <td>Link Original</td>
+                <td class="resposta" id="linkGrande">y</td>
+            </tr>
+            <tr>
+                <td>Link Encurtado</td>
+                <td class="resposta" id="linkCurto">z</td>
+            </tr>
+            <tr>
+                <td>Visitas</td>
+                <td class="resposta" id="visitas">w</td>
+            </tr>
+        </table>
+
+        <button onclick="window.location.reload()">Refresh</button>
+    </main>
+    <script>
+        let link = window.location.href;
+
+        let linkTable = document.getElementById('linkADM');
+        let linkGrande = document.getElementById('linkGrande');
+        let linkCurto = document.getElementById('linkCurto');
+        let visitas = document.getElementById('visitas');
+
+
+
+        linkTable.innerText = link;
+
+        let dados = <%- jsonData %>;
+
+
+
+        linkGrande.innerText = dados.linkGrande;
+        linkCurto.innerText = `${window.location.host}/${dados.LinkShort}`;
+        visitas.innerText = dados.visits;
+
+
+    </script>
+</body>
+
+</html>

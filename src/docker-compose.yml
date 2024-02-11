@@ -1,0 +1,62 @@
+version: '3'
+
+
+services:
+
+  redis:
+    build: ./redis
+    ports: 
+    - '6379:6379'
+  
+ 
+
+  mongodb:
+  
+    build: ./mongodb
+    ports:
+      - "27017:27017"
+
+
+
+
+
+
+
+  redis-insight:
+    image: redislabs/redisinsight:latest
+    ports:
+      - "8001:8001"
+    depends_on:
+      - redis
+
+
+
+
+
+
+  web1:
+    restart: on-failure
+    build: ./web
+    hostname: servidor-1
+    ports:
+      - '81:5000'
+    depends_on:
+      - redis
+
+
+  web2:
+    restart: on-failure
+    build: ./web
+    hostname: servidor-2
+    ports:
+      - '82:5000'
+    depends_on:
+      - redis
+
+
+  nginx:
+    build: ./nginx
+    ports:
+      - '80:80'
+    depends_on:
+      - web1

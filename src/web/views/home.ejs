@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+ 
+    <link rel="shortcut icon" href="./imgs/url.png" type="image/x-icon">
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>encurta-dor</title>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <link href="https://cdn.jsdelivr.net/npm/@sweetalert2/theme-borderless@5.0.16/borderless.min.css" rel="stylesheet">
+
+
+    <script src="https://cdn.jsdelivr.net/npm/js-confetti@0.12.0/dist/js-confetti.browser.min.js"></script>
+
+    <style>
+        body {
+            background-color: rgb(36, 40, 57);
+            margin: 0;
+            padding: 0;
+            font-family: Arial, Helvetica, sans-serif;
+    
+        }
+    
+        body:not(input){
+            user-select: none;
+        }
+    
+        body > p {
+            margin-left: 10px;
+        }
+    
+        .container {
+            display: flex;
+            flex-direction: column;
+    
+            margin-top: 25vh;
+        }
+    
+        .logo {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            user-select: none;
+        }
+    
+        .logo>img {
+            height: 10vh;
+    
+        }
+    
+    
+        .logo>p {
+            font-weight: bold;
+            margin: 0;
+            padding: 0;
+            display: inline;
+            font-size: 7vh;
+        }
+    
+        .input-container {
+            display: flex;
+            justify-content: center;
+            /* margin-top: 20px; */
+            margin-top: 10vh;
+        
+        }
+    
+        input {
+            padding: 10px;
+            font-size: 16px;
+    
+            width: 30vh;
+            height: 3.7vh;
+    
+        }
+    
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+    
+        @media only screen and (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+            
+            .logo>p {
+                font-weight: bold;
+                margin: 0;
+                padding: 0;
+                display: inline;
+                font-size: 10vw;
+            }
+    
+            .logo>img {
+                height: 10vw;
+            }
+    
+            .input-container {
+                width: 100%;
+            }
+    
+            input{
+                width: 52vw;
+            }
+        }
+    </style>
+</head>
+
+<body id="canvas">
+    
+
+    <p style="color: rgba(255, 255, 255, 0.701); margin: 0;">
+
+        <%=servidorUsado%>
+
+    </p>
+
+
+    <div class="container">
+        <div class="logo">
+            <img src="./imgs/url.png" alt="">
+            <p style="color: #8e29ed;">ENCURTA</p>
+            <!-- <p style="color: white">-</p> -->
+            <p style="color: #FC68C0;">DOR</p>
+            <img src="./imgs/url.png" alt="">
+        </div>
+
+        <div class="input-container">
+
+            <input type="text" placeholder="Cole aqui o LINK" id="linkgrosso">
+
+            <button id="enviar" onclick="enviarBtn()">Enviar</button>
+
+        </div>
+        
+        <div class="adms" style="display: none; flex-direction: column;">
+
+            <p style="color: white; text-align: center; margin-top: 10vh;">Link de admin a baixo</p>
+            <a href="" style="text-align: center;  color: #d1529e;" id="linkAdm"></a>
+            <p style="color: rgba(255, 255, 255, 0.543); text-align: center; margin-top: 1vh;">Salve esse link para manter-se conectado com as estatisticas</p>
+            
+            
+        </div>
+  
+        <p style="text-align: center; margin-top: 15vh; color: rgb(66, 73, 104);">
+
+            encurtando a dor de usar links
+
+        </p>
+    </div>
+
+
+
+  
+
+<script src="./js/home.js" defer></script>
+
+</body>
+
+</html>
