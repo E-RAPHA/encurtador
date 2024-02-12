@@ -26,7 +26,7 @@ Um encurtador de URL eficiente que utiliza MongoDB, Redis e implementa padrões 
 
 ## Como Usar
 
-1. Inicie os containers e o servidor: `docker compose up`
+1. Inicie os containers e o servidor: `docker compose upc`
 2. Acesse o encurtador de URL através do navegador: `http://localhost`
 
 ## Padrões Implementados
@@ -67,6 +67,10 @@ https://github.com/E-RAPHA/encurtador/assets/83914531/60f8e13e-fa63-461f-bf77-bc
 
 
 
+
+
+
+( foi apenas um projeto aí pra sair do tedio kkkkkkk :) )
 
 
 
