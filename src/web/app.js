@@ -38,7 +38,7 @@ app.get("/:urlpequena", redireciona)
 
 
 const linkADM  = require("./controllers/linkADM.js")
-app.get("/:urlpequena/:linkAdm", )
+app.get("/:urlpequena/:linkAdm", linkADM )
 
 
 
