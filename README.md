@@ -26,7 +26,7 @@ Um encurtador de URL eficiente que utiliza MongoDB, Redis e implementa padrões 
 
 ## Como Usar
 
-1. Inicie os containers e o servidor: `docker compose upc`
+1. Inicie os containers e o servidor: `docker compose up`
 2. Acesse o encurtador de URL através do navegador: `http://localhost`
 
 ## Padrões Implementados
