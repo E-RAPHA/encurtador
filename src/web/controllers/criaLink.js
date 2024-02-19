@@ -1,10 +1,13 @@
-//arquico responsavel por criar links e salvar no redis/mongodb
-
 const Link = require('../models/linkModel.js')
 
 
 const redisClient = require('../redis');
 const secureRandom = require('secure-random');
+
+
+const redisUtils = require('../utils/redisUtils.js')
+
+
 
 
 function aleatorio(tamanho) {
@@ -20,53 +23,6 @@ function aleatorio(tamanho) {
 
 }
 
-async function existeNoRedis(chave) {
-    return new Promise((resolve, reject) => {
-        redisClient.exists(chave, (err, reply) => {
-            if (err) {
-                console.error(err);
-                reject(err);
-            } else {
-                resolve(reply === 1);
-            }
-        });
-    });
-}
-
-
-async function salvarNoRedis(chave, valor) {
-
-    return new Promise((resolve, reject) => {
-
-        redisClient.set(chave, JSON.stringify(valor), (err, reply) => {
-            if (err) {
-                console.error(err);
-                reject(err);
-            } else {
-                console.log("salvo no Redis");
-                resolve();
-            }
-        });
-
-    });
-}
-
-
-
-
-async function expirarLinkRedis(chave, tempo) {
-    return new Promise((resolve, reject) => {
-        redisClient.expire(chave, tempo, (err) => {
-            if (err) {
-                console.error(err);
-                reject(err);
-            } else {
-                console.log(`chave expirada: ${chave}`);
-                resolve();
-            }
-        });
-    });
-}
 
 
 
@@ -75,7 +31,7 @@ async function expirarLinkRedis(chave, tempo) {
 
 async function addLink(chave, valor) {
     try {
-        let existeChave = await existeNoRedis(chave);
+        let existeChave = await redisUtils.existeNoRedis(chave);
 
         if (existeChave) {
             console.log(`ja existe nessa chave wtf!! `);
@@ -83,12 +39,13 @@ async function addLink(chave, valor) {
             let novaChave = aleatorio(8);
 
             await addLink(novaChave, valor);
+
             return;
         }
 
-        await salvarNoRedis(chave, valor);
+        await redisUtils.salvarNoRedis(chave, valor);
 
-        await expirarLinkRedis(chave, 60);
+        await redisUtils.expirarLinkRedis(chave, 60);
 
         await salvarLinkNoMongoDB(chave, valor);
 
@@ -199,4 +156,3 @@ module.exports = async function (req, res) {
 
 
 }
-
