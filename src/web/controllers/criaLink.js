@@ -1,3 +1,5 @@
+//criaLink.js  (responsavel por criar e salvar os links)
+
 const Link = require('../models/linkModel.js')
 
 
