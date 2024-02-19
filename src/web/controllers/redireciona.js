@@ -1,170 +1,59 @@
 const Link = require('../models/linkModel.js');
-// const mongoose = require('mongoose');
 const redisClient = require('../redis');
+const redisUtils = require("../utils/redisUtils.js")
+
+
+
+
+async function incrementaVisitasNoMongoDB(urlpequena) {
+    await Link.updateOne({ LinkShort: urlpequena }, { $inc: { visits: 1 } });
+}
+
+
+// async function adicionaNoCache(urlpequena) {
+//     await redisClient.expire(urlpequena, 60);
+// }
 
 module.exports = async function (req, res) {
+    try {
+        let urlpequena = req.params.urlpequena;
 
-    let urlpequena = req.params.urlpequena;
+        const resultado = await redisUtils.obterDoRedis(urlpequena);
 
-    redisClient.get(urlpequena, async (err, resultado) => {
+        if (resultado) {
 
-        console.log("busca no redis");
+            console.log("achou resultado no redis\nCACHE HIT!!!");
 
-        if (err) {
-            console.error(err);
-            res.status(500).send('Erro ao buscar no Redis');
+
+            res.redirect(resultado.linkGrande);
+            console.log("redirecionado pelo link encontrado no Rediss!")
+            resultado.visits += 1;
+
+            await incrementaVisitasNoMongoDB(urlpequena);
+            await redisUtils.salvarNoRedis(urlpequena, resultado);
+            await redisUtils.expirarLinkRedis(urlpequena, 60);//o nome nao é muito intuitivo, mas ta sendo colocado em cache.
         } else {
+            console.log("nao achou no Redis");
 
+            const linkEncontrado = await Link.findOne({ LinkShort: urlpequena }, { _id: 0, __v: 0 });
 
+            if (linkEncontrado) {//se nao achar no mongodb FODEU KKKKK
 
-            if (resultado) {
+                console.log(`chave encontrada no MongoDB ${linkEncontrado}`);
+                res.redirect(linkEncontrado.linkGrande);
+                console.log("redirecionado pelo link encontrado no mongodb")
 
+                linkEncontrado.visits++;
+                await redisUtils.salvarNoRedis(urlpequena, linkEncontrado);
+                await redisUtils.expirarLinkRedis(urlpequena, 60);
 
-                console.log("achou resultado no redis")
-
-                let valorEmJson = JSON.parse(resultado);
-
-                try {
-                    res.redirect(valorEmJson.linkGrande);
-
-                    let visitsATT = valorEmJson.visits += 1;
-
-                    redisClient.set(urlpequena, JSON.stringify(valorEmJson), (err, reply) => {
-                        if (err) {
-                            console.log(err);
-                        } else {
-
-                            console.log('JSON salvo no Redis:', reply);
-
-                            redisClient.expire(urlpequena, 60, async (err) => {
-
-                                try {
-
-
-                                    await Link.updateOne({ LinkShort: urlpequena }, { $inc: { visits: 1 } });
-
-
-                                    const linkEncontrado = await Link.findOne({ LinkShort: urlpequena }, { _id: 0, __v: 0 });
-                                    
-                                    console.log(linkEncontrado)
-                                    
-                                    //problemas aqui
-                
-                                    //preciso salvar no mongodb depois de hit cache
-
-
-
-                                } catch (err) {
-
-                                    console.error("Erro ao atualizar no MongoDB:", err);
-
-
-                                }
-
-
-                            });
-
-
-                        }
-                    });
-
-
-
-
-
-
-                } catch (err) {
-                    console.log(err);
-                }
             } else {
-
-                console.log("nao achou no redis")
-
-                try {
-
-                    const linkEncontrado = await Link.findOne({ LinkShort: urlpequena }, { _id: 0, __v: 0 });
-
-                    if (linkEncontrado) {
-
-                        console.log(`CHAVE ENCONTRADA no mongodb ${linkEncontrado}`);
-
-                        res.redirect(linkEncontrado.linkGrande);
-
-                        //joga pra cache 
-
-                        linkEncontrado.visits++
-
-
-                        redisClient.set(urlpequena, JSON.stringify(linkEncontrado), async (err, reply) => {
-                            if (err) {
-                                console.log(err);
-                            } else {
-                                console.log('foi add no cache:', reply);
-
-                                await redisClient.expire(urlpequena, 60, async(err) => {
-
-                                    if (err) {
-
-                                        console.error(err);
-
-                                    } else {
-
-
-
-                                        try {
-
-                                            await Link.updateOne({ LinkShort: urlpequena }, { $inc: { visits: 1 } });
-
-
-                                            const linkEncontrado = await Link.findOne({ LinkShort: urlpequena }, { _id: 0, __v: 0 });
-                                            
-                                            console.log(`salvo no mongo db ${linkEncontrado}`)
-
-            
-
-
-
-                                        } catch (err) {
-
-                                            console.error("Erro ao atualizar no MongoDB:", err);
-
-
-                                        }
-
-
-
-
-
-                                    }
-                                });
-                            }
-                        });
-
-
-
-
-
-
-
-
-
-
-
-
-
-                    } else {
-                        console.log(`Nenhum link encontrado para o LinkShort: ${urlpequena}`);
-
-                        //pq faz o log:  Nenhum link encontrado para o LinkShort: favicon.ico ;????
-
-                    }
-                } catch (error) {
-
-                    console.error('Erro ao buscar pelo LinkShort no Mongo:', error);
-
-                    throw error;
-                }
+                console.log(`nenhum link encontrado para o LinkShort: ${urlpequena}`);
+                res.send("nao existe o link :(")
             }
         }
-    });
+    } catch (error) {
+        console.error('erro no processamento!!!:', error);
+        res.status(500).send('Erro no processamento');
+    }
 };
